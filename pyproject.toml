@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "torna-mcp"
-version = "1.0.1"
+version = "1.0.2"
 description = "一个用于与 Torna 接口文档管理平台交互的 MCP（模型上下文协议）服务器"
 readme = "README.md"
 requires-python = ">=3.8"

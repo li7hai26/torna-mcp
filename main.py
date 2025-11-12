@@ -66,7 +66,7 @@ class TornaBaseRequest(BaseModel):
     
     interface_name: str = Field(..., description="Interface name (e.g., 'doc.push', 'doc.list')")
     version: str = Field(default="1.0", description="Interface version number")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     
     @field_validator('interface_name')
     @classmethod
@@ -92,7 +92,7 @@ class DocPushInput(BaseModel):
     parent_id: Optional[str] = Field(default=None, description="Parent category ID")
     is_show: bool = Field(default=True, description="Whether to show this document")
     version: str = Field(default="1.0", description="Interface version number")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     
     # Request parameters
     request_params: Optional[List[Dict[str, Any]]] = Field(default_factory=list, description="Request parameters")
@@ -120,7 +120,7 @@ class CategoryCreateInput(BaseModel):
     name: str = Field(..., description="Category name", min_length=1, max_length=100)
     parent_id: Optional[str] = Field(default=None, description="Parent category ID")
     description: Optional[str] = Field(default=None, description="Category description")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 class CategoryUpdateInput(BaseModel):
@@ -132,7 +132,7 @@ class CategoryUpdateInput(BaseModel):
     
     category_id: str = Field(..., description="Category ID to update")
     name: str = Field(..., description="New category name", min_length=1, max_length=100)
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 class DocListInput(BaseModel):
@@ -142,7 +142,7 @@ class DocListInput(BaseModel):
         validate_assignment=True
     )
     
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     limit: Optional[int] = Field(default=20, description="Maximum results to return", ge=1, le=100)
     offset: Optional[int] = Field(default=0, description="Number of results to skip for pagination", ge=0)
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
@@ -155,7 +155,7 @@ class DocDetailInput(BaseModel):
     )
     
     doc_id: str = Field(..., description="Document ID to retrieve")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 class DocDetailsBatchInput(BaseModel):
@@ -166,7 +166,7 @@ class DocDetailsBatchInput(BaseModel):
     )
     
     doc_ids: List[str] = Field(..., description="List of document IDs to retrieve", min_items=1, max_items=50)
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 # Dictionary API Models
@@ -179,7 +179,7 @@ class DictCreateInput(BaseModel):
     
     name: str = Field(..., description="Dictionary name", min_length=1, max_length=100)
     description: Optional[str] = Field(default=None, description="Dictionary description")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 class DictUpdateInput(BaseModel):
@@ -192,7 +192,7 @@ class DictUpdateInput(BaseModel):
     dict_id: str = Field(..., description="Dictionary ID to update")
     name: Optional[str] = Field(default=None, description="New dictionary name", min_length=1, max_length=100)
     description: Optional[str] = Field(default=None, description="New dictionary description")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 class DictListInput(BaseModel):
@@ -202,7 +202,7 @@ class DictListInput(BaseModel):
         validate_assignment=True
     )
     
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     limit: Optional[int] = Field(default=20, description="Maximum results to return", ge=1, le=100)
     offset: Optional[int] = Field(default=0, description="Number of results to skip for pagination", ge=0)
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
@@ -215,7 +215,7 @@ class DictDetailInput(BaseModel):
     )
     
     dict_id: str = Field(..., description="Dictionary ID to retrieve")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 class DictDeleteInput(BaseModel):
@@ -226,7 +226,7 @@ class DictDeleteInput(BaseModel):
     )
     
     dict_id: str = Field(..., description="Dictionary ID to delete")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 # Module API Models
@@ -240,7 +240,7 @@ class ModuleCreateInput(BaseModel):
     name: str = Field(..., description="Module name", min_length=1, max_length=100)
     description: Optional[str] = Field(default=None, description="Module description")
     project_id: str = Field(..., description="Project ID to which the module belongs")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 class ModuleUpdateInput(BaseModel):
@@ -253,7 +253,7 @@ class ModuleUpdateInput(BaseModel):
     module_id: str = Field(..., description="Module ID to update")
     name: Optional[str] = Field(default=None, description="New module name", min_length=1, max_length=100)
     description: Optional[str] = Field(default=None, description="New module description")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 class ModuleListInput(BaseModel):
@@ -264,7 +264,7 @@ class ModuleListInput(BaseModel):
     )
     
     project_id: Optional[str] = Field(default=None, description="Project ID to filter modules")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     limit: Optional[int] = Field(default=20, description="Maximum results to return", ge=1, le=100)
     offset: Optional[int] = Field(default=0, description="Number of results to skip for pagination", ge=0)
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
@@ -277,7 +277,7 @@ class ModuleDetailInput(BaseModel):
     )
     
     module_id: str = Field(..., description="Module ID to retrieve")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 class ModuleDeleteInput(BaseModel):
@@ -288,10 +288,34 @@ class ModuleDeleteInput(BaseModel):
     )
     
     module_id: str = Field(..., description="Module ID to delete")
-    access_token: str = Field(..., description="Module token for authentication")
+    access_token: Optional[str] = Field(default=None, description="Module token for authentication (optional, will auto-select from environment if not provided)")
     response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
 
 # Shared utility functions
+def _select_access_token(provided_token: Optional[str] = None) -> str:
+    """智能选择访问令牌。
+    
+    如果用户提供了token，则使用提供的token。
+    如果没有提供，从环境变量TORNA_TOKENS中选择第一个可用的token。
+    
+    Args:
+        provided_token: 用户提供的token（如果手动指定）
+    
+    Returns:
+        str: 选中的访问令牌
+    
+    Raises:
+        ValueError: 如果没有可用的token
+    """
+    if provided_token and provided_token.strip():
+        return provided_token.strip()
+    
+    # 如果环境变量中有多个token，默认使用第一个
+    if TORNA_TOKENS and TORNA_TOKENS[0] and TORNA_TOKENS[0].strip():
+        return TORNA_TOKENS[0].strip()
+    
+    raise ValueError("No access token available. Please provide access_token parameter or set TORNA_TOKENS environment variable.")
+
 async def _make_api_request(interface_name: str, version: str, data: Dict[str, Any], access_token: str) -> Dict[str, Any]:
     """Make request to Torna API."""
     # Torna API expects data to be JSON encoded string
@@ -561,11 +585,12 @@ async def torna_push_document(params: DocPushInput) -> str:
         data = _format_doc_push_data(params)
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="doc.push",
             version=params.version,
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "doc.push")
@@ -642,11 +667,12 @@ async def torna_create_category(params: CategoryCreateInput) -> str:
             data["description"] = params.description
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="doc.category.create",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "doc.category.create")
@@ -712,11 +738,13 @@ async def torna_update_category_name(params: CategoryUpdateInput) -> str:
         }
         
         # Make API request
+        # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="doc.category.name.update",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "doc.category.name.update")
@@ -794,11 +822,12 @@ async def torna_list_documents(params: DocListInput) -> str:
         }
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="doc.list",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "doc.list")
@@ -871,11 +900,12 @@ async def torna_get_document_detail(params: DocDetailInput) -> str:
         }
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="doc.detail",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "doc.detail")
@@ -952,11 +982,12 @@ async def torna_get_document_details_batch(params: DocDetailsBatchInput) -> str:
         }
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="doc.details",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "doc.details")
@@ -1027,11 +1058,12 @@ async def torna_create_dictionary(params: DictCreateInput) -> str:
             data["description"] = params.description
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="dict.create",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "dict.create")
@@ -1105,11 +1137,12 @@ async def torna_update_dictionary(params: DictUpdateInput) -> str:
             data["description"] = params.description
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="dict.update",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "dict.update")
@@ -1184,11 +1217,12 @@ async def torna_list_dictionaries(params: DictListInput) -> str:
         }
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="dict.list",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "dict.list")
@@ -1267,11 +1301,12 @@ async def torna_get_dictionary_detail(params: DictDetailInput) -> str:
         }
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="dict.detail",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "dict.detail")
@@ -1334,11 +1369,12 @@ async def torna_delete_dictionary(params: DictDeleteInput) -> str:
         }
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="dict.delete",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "dict.delete")
@@ -1413,11 +1449,12 @@ async def torna_create_module(params: ModuleCreateInput) -> str:
             data["description"] = params.description
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="module.create",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "module.create")
@@ -1491,11 +1528,12 @@ async def torna_update_module(params: ModuleUpdateInput) -> str:
             data["description"] = params.description
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="module.update",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "module.update")
@@ -1575,11 +1613,12 @@ async def torna_list_modules(params: ModuleListInput) -> str:
             data["projectId"] = params.project_id
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="module.list",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "module.list")
@@ -1649,11 +1688,12 @@ async def torna_get_module_detail(params: ModuleDetailInput) -> str:
         }
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="module.detail",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "module.detail")
@@ -1716,11 +1756,12 @@ async def torna_delete_module(params: ModuleDeleteInput) -> str:
         }
         
         # Make API request
+        actual_token = _select_access_token(params.access_token)
         result = await _make_api_request(
             interface_name="module.delete",
             version="1.0",
             data=data,
-            access_token=params.access_token
+            access_token=actual_token
         )
         
         return _format_response(result, params.response_format, "module.delete")

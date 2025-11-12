@@ -44,7 +44,27 @@ source .env
 | 变量名 | 必需 | 说明 | 示例 |
 |--------|------|------|------|
 | `TORNA_URL` | 是 | Torna服务器地址 | `https://your-torna.com/api` |
-| `TORNA_TOKENS` | 是 | 访问令牌（逗号分隔） | `token1,token2,token3` |
+| `TORNA_TOKENS` | 是 | 访问令牌（逗号分隔，系统会自动选择第一个） | `token1,token2,token3` |
+
+### 🔐 智能Token选择
+
+本系统支持智能Token管理：
+
+1. **自动选择**：设置 `TORNA_TOKENS` 后，所有工具会自动使用第一个token
+2. **手动覆盖**：可以在特定工具调用时提供 `access_token` 参数
+3. **多模块支持**：支持多个不同模块的token，系统选择第一个作为默认
+
+**配置示例：**
+```bash
+# 设置多个模块token
+export TORNA_TOKENS="商品中心token,订单中心token,用户中心token"
+
+# 使用默认token（推荐）
+torna_push_document({"name": "商品接口", ...})
+
+# 手动指定特定token
+torna_push_document({"name": "订单接口", "access_token": "订单中心token"})
+```
 
 ## 🖥️ 启动MCP服务器
 

@@ -46,7 +46,7 @@ uv pip install -e .
 # 设置Torna服务器地址
 export TORNA_URL="https://your-torna-instance.com"
 
-# 设置访问令牌（多个令牌用逗号分隔）
+# 设置访问令牌（多个令牌用逗号分隔，系统会自动选择第一个）
 export TORNA_TOKENS="token1,token2,token3"
 ```
 
@@ -55,6 +55,31 @@ export TORNA_TOKENS="token1,token2,token3"
 ```bash
 cp .env.example .env
 # 编辑 .env 文件，设置您的TORNA_URL和TORNA_TOKENS
+```
+
+### 🔐 智能Token选择机制
+
+本系统支持智能Token选择，您无需在每个工具中手动指定token：
+
+1. **自动选择**：如果没有提供 `access_token` 参数，系统会自动使用 `TORNA_TOKENS` 环境变量中的第一个token
+2. **手动覆盖**：您仍可以在特定工具中提供 `access_token` 参数来覆盖默认选择
+3. **多token支持**：如果您有多个模块的token，可以设置多个，系统会使用第一个作为默认
+
+**示例：**
+```python
+# 使用默认token（从环境变量自动选择）
+{
+  "name": "用户登录",
+  "description": "用户登录接口"
+  # 无需提供 access_token
+}
+
+# 手动指定特定token
+{
+  "name": "商品管理",
+  "description": "商品管理接口",
+  "access_token": "specific_token_for_product_module"
+}
 ```
 
 ### 启动MCP服务器
@@ -139,8 +164,8 @@ iflow mcp add toma-mcp
 参数:
 {
   "name": "用户管理",
-  "description": "用户相关的API接口",
-  "access_token": "your_token"
+  "description": "用户相关的API接口"
+  // access_token会自动从环境变量选择
 }
 ```
 
@@ -181,8 +206,8 @@ iflow mcp add toma-mcp
       "type": "string", 
       "description": "用户ID"
     }
-  ],
-  "access_token": "your_token"
+  ]
+  // access_token会自动从环境变量选择
 }
 ```
 
@@ -191,9 +216,22 @@ iflow mcp add toma-mcp
 工具: torna_list_documents
 参数:
 {
-  "access_token": "your_token",
   "limit": 20,
   "offset": 0
+  // access_token会自动从环境变量选择
+}
+```
+
+### 使用特定Token（覆盖默认选择）
+```
+工具: toma_push_document
+参数:
+{
+  "name": "商品管理",
+  "description": "商品管理接口",
+  "url": "/api/products",
+  "http_method": "GET",
+  "access_token": "specific_product_token"  // 手动指定特定token
 }
 ```
 
