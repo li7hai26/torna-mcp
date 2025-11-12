@@ -5,7 +5,9 @@
 [![License](https://img.shields.io/pypi/l/torna-mcp)](https://github.com/li7hai26/torna-mcp/blob/main/LICENSE)
 [![GitHub](https://img.shields.io/github/stars/li7hai26/torna-mcp)](https://github.com/li7hai26/torna-mcp)
 
-一个用于与 Torna 接口文档管理平台交互的 MCP（模型上下文协议）服务器。该服务器提供了16个工具，允许 LLM 通过标准化的接口来管理 Torna 中的文档、字典和模块。
+一个用于与 Torna 接口文档管理平台交互的 MCP（模型上下文协议）服务器。该服务器基于真实的 Torna OpenAPI 规范，提供了2个核心工具，允许 LLM 通过标准化的接口来管理 Torna 中的 API 文档。
+
+**基于真实 Torna API 规范**: http://localhost:7700/api
 
 ## 🎉 发布状态
 
@@ -44,43 +46,27 @@ uv pip install -e .
 
 ```bash
 # 设置Torna服务器地址
-export TORNA_URL="https://your-torna-instance.com"
+export TORNA_URL="http://localhost:7700/api"
 
-# 设置访问令牌（多个令牌用逗号分隔，系统会自动选择第一个）
-export TORNA_TOKENS="token1,token2,token3"
+# 设置模块访问令牌
+export TORNA_TOKEN="your-module-token-here"
 ```
 
-**注意：** 如果您使用的是Gitee，可以使用环境变量文件：
+**获取Token方法:**
+1. 登录 Torna 管理后台
+2. 选择项目
+3. 选择模块
+4. 点击 OpenAPI 标签
+5. 复制 token
+
+**环境变量文件:** 如果您使用环境变量文件：
 
 ```bash
 cp .env.example .env
-# 编辑 .env 文件，设置您的TORNA_URL和TORNA_TOKENS
+# 编辑 .env 文件，设置您的 TORNA_URL 和 TORNA_TOKEN
 ```
 
-### 🔐 智能Token选择机制
 
-本系统支持智能Token选择，您无需在每个工具中手动指定token：
-
-1. **自动选择**：如果没有提供 `access_token` 参数，系统会自动使用 `TORNA_TOKENS` 环境变量中的第一个token
-2. **手动覆盖**：您仍可以在特定工具中提供 `access_token` 参数来覆盖默认选择
-3. **多token支持**：如果您有多个模块的token，可以设置多个，系统会使用第一个作为默认
-
-**示例：**
-```python
-# 使用默认token（从环境变量自动选择）
-{
-  "name": "用户登录",
-  "description": "用户登录接口"
-  # 无需提供 access_token
-}
-
-# 手动指定特定token
-{
-  "name": "商品管理",
-  "description": "商品管理接口",
-  "access_token": "specific_token_for_product_module"
-}
-```
 
 ### 启动MCP服务器
 
@@ -92,27 +78,22 @@ torna-mcp
 
 ## 📚 功能特性
 
-### 文档 API (6个工具)
+### 核心 API 接口 (2个工具)
+
+基于真实的 Torna OpenAPI 规范实现：
+
 - **推送文档** (`torna_push_document`) - 向 Torna 推送 API 文档
-- **创建分类** (`torna_create_category`) - 创建文档分类/文件夹  
-- **更新分类名称** (`torna_update_category_name`) - 更新现有分类名称
-- **列出文档** (`torna_list_documents`) - 获取应用文档列表
-- **获取文档详情** (`torna_get_document_detail`) - 获取单个文档详细信息
-- **批量获取文档详情** (`torna_get_document_details_batch`) - 批量获取多个文档详细信息
+  - 支持创建分类/文件夹
+  - 支持请求/响应参数定义
+  - 支持错误码配置
+  - 支持调试环境设置
 
-### 字典 API (5个工具)
-- **创建字典** (`torna_create_dictionary`) - 创建新的枚举字典
-- **更新字典** (`torna_update_dictionary`) - 更新现有字典信息
-- **列出字典** (`torna_list_dictionaries`) - 获取字典列表
-- **获取字典详情** (`torna_get_dictionary_detail`) - 获取字典详细信息
-- **删除字典** (`torna_delete_dictionary`) - 删除字典（破坏性操作）
+- **获取文档** (`torna_get_document`) - 获取单个文档详细信息
+  - 获取文档完整信息
+  - 包括请求/响应参数
+  - 包括错误码信息
 
-### 模块 API (5个工具)
-- **创建模块** (`torna_create_module`) - 创建新的模块
-- **更新模块** (`torna_update_module`) - 更新现有模块信息
-- **列出模块** (`torna_list_modules`) - 获取模块列表
-- **获取模块详情** (`torna_get_module_detail`) - 获取模块详细信息
-- **删除模块** (`torna_delete_module`) - 删除模块（破坏性操作）
+**API 规范**: 基于 [Torna 官方 OpenAPI](https://torna.cn/dev/openapi.html) 实现
 
 ## 🛠️ MCP客户端配置
 
@@ -126,8 +107,8 @@ torna-mcp
     "torna-mcp": {
       "command": "torna-mcp",
       "env": {
-        "TORNA_URL": "https://your-torna-instance.com",
-        "TORNA_TOKENS": "your-tokens-here"
+        "TORNA_URL": "http://localhost:7700/api",
+        "TORNA_TOKEN": "your-module-token-here"
       }
     }
   }
@@ -158,20 +139,9 @@ iflow mcp add toma-mcp
 
 ## 📝 使用示例
 
-### 创建文档分类
-```
-工具: torna_create_category
-参数:
-{
-  "name": "用户管理",
-  "description": "用户相关的API接口"
-  // access_token会自动从环境变量选择
-}
-```
-
 ### 推送 API 文档
 ```
-工具: torna_push_document
+工具: toma_push_document
 参数:
 {
   "name": "用户登录",
@@ -206,32 +176,54 @@ iflow mcp add toma-mcp
       "type": "string", 
       "description": "用户ID"
     }
-  ]
-  // access_token会自动从环境变量选择
+  ],
+  "author": "张三"
 }
 ```
 
-### 列出所有文档
+### 获取文档详情
 ```
-工具: torna_list_documents
+工具: toma_get_document
 参数:
 {
-  "limit": 20,
-  "offset": 0
-  // access_token会自动从环境变量选择
+  "doc_id": "doc_123"
 }
 ```
 
-### 使用特定Token（覆盖默认选择）
+### 创建分类（文件夹）
 ```
 工具: toma_push_document
 参数:
 {
-  "name": "商品管理",
-  "description": "商品管理接口",
-  "url": "/api/products",
+  "name": "用户管理",
+  "description": "用户相关的API接口",
+  "url": "",
   "http_method": "GET",
-  "access_token": "specific_product_token"  // 手动指定特定token
+  "is_folder": true
+}
+```
+
+### 带调试环境的文档
+```
+工具: toma_push_document
+参数:
+{
+  "name": "商品查询",
+  "description": "查询商品信息",
+  "url": "/api/products/{id}",
+  "http_method": "GET",
+  "content_type": "application/json",
+  "path_params": [
+    {
+      "name": "id",
+      "type": "int",
+      "description": "商品ID",
+      "required": true,
+      "example": "123"
+    }
+  ],
+  "debug_env_name": "测试环境",
+  "debug_env_url": "http://localhost:8080"
 }
 ```
 

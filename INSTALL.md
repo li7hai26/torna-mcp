@@ -30,8 +30,8 @@ torna-mcp --help
 
 ```bash
 # 基本配置
-export TORNA_URL="https://your-torna-instance.com"
-export TORNA_TOKENS="token1,token2,token3"
+export TORNA_URL="http://localhost:7700/api"
+export TORNA_TOKEN="your-module-token"
 
 # 或使用环境变量文件（推荐）
 cp .env.example .env
@@ -43,28 +43,15 @@ source .env
 
 | 变量名 | 必需 | 说明 | 示例 |
 |--------|------|------|------|
-| `TORNA_URL` | 是 | Torna服务器地址 | `https://your-torna.com/api` |
-| `TORNA_TOKENS` | 是 | 访问令牌（逗号分隔，系统会自动选择第一个） | `token1,token2,token3` |
+| `TORNA_URL` | 否 | Torna服务器地址（默认: http://localhost:7700/api） | `http://localhost:7700/api` |
+| `TORNA_TOKEN` | 是 | 模块访问令牌 | `b414086531524fb0bc14f757346fec92` |
 
-### 🔐 智能Token选择
-
-本系统支持智能Token管理：
-
-1. **自动选择**：设置 `TORNA_TOKENS` 后，所有工具会自动使用第一个token
-2. **手动覆盖**：可以在特定工具调用时提供 `access_token` 参数
-3. **多模块支持**：支持多个不同模块的token，系统选择第一个作为默认
-
-**配置示例：**
-```bash
-# 设置多个模块token
-export TORNA_TOKENS="商品中心token,订单中心token,用户中心token"
-
-# 使用默认token（推荐）
-torna_push_document({"name": "商品接口", ...})
-
-# 手动指定特定token
-torna_push_document({"name": "订单接口", "access_token": "订单中心token"})
-```
+**获取Token方法：**
+1. 登录 Torna 管理后台
+2. 选择项目
+3. 选择模块  
+4. 点击 OpenAPI 标签
+5. 复制 token
 
 ## 🖥️ 启动MCP服务器
 
