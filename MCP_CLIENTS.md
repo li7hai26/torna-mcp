@@ -1,474 +1,271 @@
-# 🔗 Torna MCP Server - MCP 客户端连接指南
+# MCP 客户端配置指南
 
-本指南详细说明如何在各种MCP客户端中配置和使用Torna MCP Server。
+## 🚀 安装方式
 
-## 📋 支持的MCP客户端
+首先安装 Torna MCP Server：
 
-| 客户端 | 支持状态 | 配置文件位置 |
-|--------|----------|--------------|
-| Claude Desktop | ✅ 完全支持 | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| Cursor IDE | ✅ 完全支持 | `~/.cursor/settings.json` |
-| IFlow CLI | ✅ 完全支持 | `~/.iflow/config.json` |
-| VS Code MCP | ✅ 完全支持 | `~/.vscode-server/data/User/globalStorage/some-extension/mcp.json` |
-| 其他MCP客户端 | ✅ 通用支持 | 根据客户端文档配置 |
+```bash
+# 从 PyPI 安装（推荐）
+pip install toma-mcp
+# 或使用 uv
+uv pip install toma-mcp
 
-## 🛠️ 配置方法
+# 验证安装
+torna-mcp --help
+```
 
-### 1. Claude Desktop 配置
+## ⚙️ 配置环境变量
 
-**配置文件位置**：
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-- Linux: `~/.config/Claude/claude_desktop_config.json`
+```bash
+# 设置 Torna 服务器地址
+export TORNA_URL="https://your-torna-instance.com"
 
-**配置方法**：
+# 设置模块令牌（多个用逗号分隔）
+export TORNA_TOKENS="token1,token2,token3"
+```
+
+## 🔌 客户端配置
+
+### 1. Claude Desktop
+
+**方式一：自动检测**
+Claude Desktop 会自动检测系统中可用的 MCP 服务器。
+
+**方式二：手动配置**
+
+编辑 Claude Desktop 配置文件：`~/Library/Application Support/Claude/claude_desktop_config.json`
+
 ```json
 {
   "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["/full/path/to/torna-mcp/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_1,your_token_2,your_token_3"
-      }
+    "torna-mcp": {
+      "command": "torna-mcp",
+      "args": []
     }
   }
 }
 ```
 
-**具体步骤**：
+重启 Claude Desktop 后，在对话中使用：
+```
+请帮我连接 Torna MCP 服务器，列出所有可用的工具。
+```
+
+### 2. Cursor
+
+1. 打开 Cursor 编辑器
+2. 进入 Settings（设置）
+3. 搜索 "MCP" 或 "Model Context Protocol"
+4. 在 MCP Servers 配置中：
+   - **名称**: `torna-mcp`
+   - **命令**: `torna-mcp`
+   - **参数**: 留空
+
+重启 Cursor 后可以使用：
+```
+使用 Torna MCP 工具管理我的接口文档。
+```
+
+### 3. VS Code
+
+1. 安装 MCP 相关扩展（如 MCP、Model Context Protocol 等）
+2. 打开命令面板 (`Ctrl+Shift+P`)
+3. 搜索 "MCP" 相关命令
+4. 配置服务器：
+   - **名称**: `torna-mcp`
+   - **命令**: `torna-mcp`
+
+### 4. IFlow CLI
+
 ```bash
-# 1. 创建或编辑配置文件
-mkdir -p ~/Library/Application\ Support/Claude
-cat > ~/Library/Application\ Support/Claude/claude_desktop_config.json << EOF
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["/full/path/to/torna-mcp/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
-EOF
+# IFlow CLI 会自动检测已安装的 MCP 服务器
+# 直接使用：
 
-# 2. 重启 Claude Desktop
+# 连接 Torna MCP 服务器
+iflow connect toma-mcp
+
+# 或在对话中：
 ```
 
-### 2. Cursor IDE 配置
+### 5. 其他 MCP 客户端
 
-**配置文件位置**：
-- macOS: `~/.cursor/settings.json`
-- Windows: `%APPDATA%\Cursor\settings.json`
-- Linux: `~/.config/Cursor/settings.json`
+任何支持 MCP 协议的客户端都可以通过以下方式连接：
 
-**配置方法**：
-```json
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["/full/path/to/torna-mcp/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
-```
-
-**具体步骤**：
 ```bash
-# 1. 编辑Cursor设置文件
-mkdir -p ~/.cursor
-cat > ~/.cursor/settings.json << EOF
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["/full/path/to/torna-mcp/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
-EOF
+# 启动命令
+torna-mcp
 
-# 2. 重启 Cursor IDE
+# 客户端配置
+Name: torna-mcp
+Command: toma-mcp
+Args: []
 ```
 
-### 3. IFlow CLI 配置
+## 📋 可用工具列表
 
-**配置文件位置**：
-- `~/.iflow/config.json`
+连接成功后，您可以使用以下工具：
 
-**配置方法**：
-```json
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["/full/path/to/torna-mcp/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
+### 📄 文档 API (6个工具)
+- `torna_push_document` - 推送文档到 Torna
+- `torna_create_category` - 创建文档分类
+- `torna_update_category_name` - 更新分类名称
+- `torna_list_documents` - 列出应用文档
+- `torna_get_document_detail` - 获取文档详情
+- `torna_get_document_details_batch` - 批量获取文档详情
+
+### 📚 字典 API (5个工具)
+- `torna_create_dictionary` - 创建字典
+- `torna_update_dictionary` - 更新字典
+- `torna_list_dictionaries` - 列出字典
+- `torna_get_dictionary_detail` - 获取字典详情
+- `torna_delete_dictionary` - 删除字典
+
+### 🔧 模块 API (5个工具)
+- `torna_create_module` - 创建模块
+- `torna_update_module` - 更新模块
+- `torna_list_modules` - 列出模块
+- `torna_get_module_detail` - 获取模块详情
+- `torna_delete_module` - 删除模块
+
+## 🎯 使用示例
+
+### 在 Claude Desktop 中
+```
+我来帮你管理 Torna 中的接口文档。
+
+首先，列出当前所有的文档：
+请使用 `torna_list_documents` 查看有哪些文档
+
+然后，我可以：
+- 创建新的 API 文档
+- 更新现有文档内容
+- 管理文档分类
+- 查看模块详情
 ```
 
-**具体步骤**：
+### 在 Cursor 中
+```
+请使用 Torna MCP 工具帮我：
+1. 检查可用的模块列表
+2. 为新功能创建文档分类
+3. 推送 API 文档到指定模块
+```
+
+### 通用提示
+```
+使用 Torna MCP 管理接口文档：
+- 列出当前所有模块
+- 创建新模块的文档分类
+- 推送一个用户管理相关的API文档
+- 列出所有枚举字典
+```
+
+## 🛠️ 故障排除
+
+### 1. 服务器无法启动
+
 ```bash
-# 1. 编辑IFlow配置
-mkdir -p ~/.iflow
-cat > ~/.iflow/config.json << EOF
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["/full/path/to/torna-mcp/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
-EOF
+# 检查环境变量
+echo $TORNA_URL
+echo $TORNA_TOKENS
 
-# 2. 重启 IFlow CLI
+# 测试启动
+torna-mcp
 ```
 
-### 4. VS Code 配置
+常见错误：
+- `TORNA_URL environment variable is required` - 设置 TORNA_URL
+- `TORNA_TOKENS environment variable is required` - 设置 TORNA_TOKENS
 
-**配置方法**：
-1. 打开VS Code设置 (Cmd/Ctrl + ,)
-2. 搜索 "MCP Servers"
-3. 在 settings.json 中添加配置
+### 2. 客户端无法连接
 
-**配置文件位置**：
-- `~/.vscode-server/data/User/settings.json`
+1. **确认服务器运行**：
+   ```bash
+   # 在终端中测试
+   torna-mcp
+   ```
 
-**配置内容**：
-```json
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["/full/path/to/torna-mcp/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
-```
+2. **检查客户端配置**：
+   - 命令路径是否正确
+   - 参数是否为空
+   - 权限是否正确
 
-## 🔧 环境变量配置
+3. **重启客户端**：
+   - 关闭并重启 MCP 客户端
+   - 重新连接服务器
 
-### 方法1: 环境变量 (推荐)
+### 3. 工具调用失败
 
-**设置环境变量**：
+1. **检查 Torna 连接**：
+   ```bash
+   # 测试 Torna 服务器可达性
+   curl -I $TORNA_URL
+   ```
+
+2. **验证令牌权限**：
+   - 确认 TORNA_TOKENS 中的令牌有效
+   - 检查令牌对应模块的权限
+
+3. **查看错误日志**：
+   - 多数 MCP 客户端会显示详细错误信息
+   - 根据错误信息进行问题定位
+
+## 📝 开发者和高级用法
+
+### 自定义配置
+
 ```bash
-# 方式1: 在配置文件中设置 (见上方示例)
-# 方式2: 设置系统环境变量
+# 创建配置文件 ~/.torna-mcp/config
+TORNA_URL=https://your-torna.com
+TORNA_TOKENS=token1,token2,token3
 
-# Linux/macOS
-export TORNA_URL="http://localhost:7700/api"
-export TORNA_TOKENS="your_token_here"
-
-# Windows
-set TORNA_URL=http://localhost:7700/api
-set TORNA_TOKENS=your_token_here
+# 加载配置
+source ~/.torna-mcp/config
+torna-mcp
 ```
 
-### 方法2: .env 文件
-
-在torna-mcp项目目录中创建 `.env` 文件：
-```bash
-# .env 文件内容
-TORNA_URL=http://localhost:7700/api
-TORNA_TOKENS=your_token_here
-```
-
-## 📝 完整配置示例
-
-### Linux/macOS 完整配置
+### 批量操作脚本
 
 ```bash
 #!/bin/bash
-# 自动配置脚本
+# 批量推送文档脚本
 
-# 设置Torna MCP Server路径
-TORNA_MCP_PATH="/full/path/to/torna-mcp"
+export TORNA_URL="https://your-torna.com"
+export TORNA_TOKENS="your_token"
 
-# Claude Desktop配置
-cat > ~/Library/Application\ Support/Claude/claude_desktop_config.json << EOF
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["$TORNA_MCP_PATH/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
-EOF
+# 启动 MCP 服务器
+torna-mcp &
+MCP_PID=$!
 
-# Cursor配置
-cat > ~/.cursor/settings.json << EOF
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["$TORNA_MCP_PATH/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
-EOF
+# 等待服务器启动
+sleep 3
 
-# IFlow CLI配置
-cat > ~/.iflow/config.json << EOF
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["$TORNA_MCP_PATH/main.py"],
-      "env": {
-        "TORNA_URL": "http://localhost:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
-EOF
+# 执行批量操作
+# 这里可以调用 MCP 工具进行批量操作
 
-echo "✅ 所有MCP客户端配置完成！"
-echo "请重启对应的客户端以应用更改。"
+# 停止服务器
+kill $MCP_PID
 ```
 
-### Windows 完整配置
+### 作为 Python 模块使用
 
-```powershell
-# PowerShell配置脚本
+```python
+import os
+from main import mcp, main
 
-# 设置Torna MCP Server路径
-$TORNA_MCP_PATH = "C:\path\to\torna-mcp"
+# 配置环境
+os.environ['TORNA_URL'] = "https://your-torna.com"
+os.environ['TORNA_TOKENS'] = "your_token"
 
-# 创建配置目录
-$ConfigDir = "$env:APPDATA\Claude"
-New-Item -ItemType Directory -Force -Path $ConfigDir
-
-# Claude Desktop配置
-$ClaudeConfig = @{
-    mcpServers = @{
-        torna = @{
-            command = "python"
-            args = @("$TORNA_MCP_PATH\main.py")
-            env = @{
-                TORNA_URL = "http://localhost:7700/api"
-                TORNA_TOKENS = "your_token_here"
-            }
-        }
-    }
-}
-$ClaudeConfig | ConvertTo-Json -Depth 10 | Set-Content "$ConfigDir\claude_desktop_config.json"
-
-# Cursor配置
-$CursorConfig = $ClaudeConfig.Clone()
-$CursorConfig | ConvertTo-Json -Depth 10 | Set-Content "$env:APPDATA\Cursor\settings.json"
-
-Write-Host "✅ 所有MCP客户端配置完成！"
-Write-Host "请重启对应的客户端以应用更改。"
+# 启动服务器
+if __name__ == "__main__":
+    main()
 ```
 
-## 🧪 连接测试
+## 🎉 成功！
 
-### 测试步骤
-
-1. **启动Torna MCP Server**：
-```bash
-cd /path/to/torna-mcp
-python main.py
-```
-
-2. **在MCP客户端中测试**：
-```
-工具: torna_list_documents
-参数:
-{
-  "access_token": "your_token_here",
-  "limit": 1
-}
-```
-
-3. **验证响应**：
-- ✅ 成功：返回文档列表信息
-- ❌ 失败：检查配置或服务器状态
-
-### 调试方法
-
-1. **检查服务器是否运行**：
-```bash
-python /path/to/torna-mcp/main.py --help
-```
-
-2. **验证配置**：
-```bash
-python /path/to/torna-mcp/validate_config.py
-```
-
-3. **测试网络连接**：
-```bash
-curl -X POST http://localhost:7700/api -H "Content-Type: application/json" -d '{"name":"doc.list","version":"1.0","data":"{}","access_token":"your_token"}'
-```
-
-## 🔍 常见问题解决
-
-### 问题1: "Command not found: python3"
-
-**解决方案**：
-```bash
-# 检查Python安装
-which python3 || which python
-
-# 更新配置中的命令
-"command": "python"  # Windows 或
-"command": "/usr/bin/python3"  # 完整路径
-```
-
-### 问题2: "Permission denied"
-
-**解决方案**：
-```bash
-# 检查文件权限
-chmod +x /path/to/torna-mcp/main.py
-
-# 或在配置中添加完整路径
-"command": "/usr/bin/python3"
-```
-
-### 问题3: "Environment variable not found"
-
-**解决方案**：
-1. 确保环境变量已设置
-2. 使用.env文件或配置文件中设置
-3. 重新启动客户端
-
-### 问题4: "Module not found: mcp.server.fastmcp"
-
-**解决方案**：
-```bash
-# 安装依赖
-pip install -r requirements.txt
-
-# 或检查Python环境
-which python
-pip list | grep mcp
-```
-
-### 问题5: Torna API 连接失败
-
-**解决方案**：
-1. 检查TORNA_URL是否正确
-2. 验证网络连接
-3. 确认访问令牌有效
-4. 检查防火墙设置
-
-## 📱 移动设备配置
-
-### iOS/iPadOS (支持MCP的客户端)
-
-**配置文件位置**：
-- 通过客户端设置界面配置
-- 或通过共享配置文件
-
-**配置示例**：
-```json
-{
-  "mcpServers": {
-    "torna": {
-      "command": "python3",
-      "args": ["/path/to/torna-mcp/main.py"],
-      "env": {
-        "TORNA_URL": "https://your-torna-server.com/api",
-        "TORNA_TOKENS": "your_mobile_token"
-      }
-    }
-  }
-}
-```
-
-### Android (支持MCP的客户端)
-
-**配置方法**：
-- 通过客户端设置界面配置
-- 使用环境变量配置
-
-## 🌐 远程服务器配置
-
-### 配置远程访问
-
-```bash
-# 1. 在服务器上启动Torna MCP Server
-python main.py --host 0.0.0.0 --port 3000
-
-# 2. 客户端配置
-{
-  "mcpServers": {
-    "torna": {
-      "command": "ssh",
-      "args": ["user@server", "python /path/to/torna-mcp/main.py"],
-      "env": {
-        "TORNA_URL": "http://your-torna-server:7700/api",
-        "TORNA_TOKENS": "your_token_here"
-      }
-    }
-  }
-}
-```
-
-## 🔐 安全注意事项
-
-1. **访问令牌安全**：
-   - 不要在配置文件中硬编码生产环境令牌
-   - 使用环境变量或密钥管理工具
-   - 定期轮换访问令牌
-
-2. **网络连接**：
-   - 生产环境使用HTTPS
-   - 配置防火墙规则
-   - 使用VPN或专用网络
-
-3. **文件权限**：
-   - 确保配置文件权限安全
-   - 限制文件访问权限
-
-## 📞 获取帮助
-
-如需帮助，请：
-
-1. 查看 `RELEASE_STATUS.md` 中的故障排除部分
-2. 运行 `python validate_config.py` 诊断问题
-3. 检查各客户端的日志输出
-4. 访问项目仓库的Issues页面
+配置完成后，您就可以在各种 MCP 客户端中享受智能的 Torna 接口文档管理体验了！
 
 ---
 
-**配置完成后，你就可以在任何MCP客户端中使用Torna MCP Server的所有16个工具函数了！** 🚀
+**💡 提示**: 建议在生产环境中为 Torna MCP 设置独立的运行环境，避免与其他 Python 包冲突。
