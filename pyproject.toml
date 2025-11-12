@@ -8,14 +8,11 @@ version = "1.0.0"
 description = "一个用于与 Torna 接口文档管理平台交互的 MCP（模型上下文协议）服务器"
 readme = "README.md"
 requires-python = ">=3.8"
-license = {file = "LICENSE"}
+license = {text = "MIT"}
 authors = [
     {name = "阿拉丁神灯", email = "li7hai26@example.com"}
 ]
-keywords = [
-    "mcp", "torna", "api-documentation", "claude", "llm", 
-    "model-context-protocol", "openapi", "documentation-management"
-]
+keywords = ["mcp", "torna", "api-documentation", "claude", "llm"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -27,23 +24,18 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Documentation",
-    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
 dependencies = [
     "httpx>=0.25.0",
     "pydantic>=2.0.0",
     "fastmcp>=0.3.0",
 ]
-long-description = "file: README.md"
-long-description-content-type = "text/markdown"
+
 
 [project.urls]
 "Homepage" = "https://github.com/li7hai26/torna-mcp"
 "Bug Reports" = "https://github.com/li7hai26/torna-mcp/issues"
 "Source" = "https://github.com/li7hai26/torna-mcp"
-"Documentation" = "https://github.com/li7hai26/torna-mcp/blob/main/README.md"
 
 [project.scripts]
 torna-mcp = "main:main"
@@ -55,14 +47,3 @@ exclude = ["tests*", "test_*", "complete_*", "deploy*", "validate*", "setup_*"]
 
 [tool.setuptools.package-data]
 "*" = ["*.md", "*.txt", "*.xml", "*.json"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-addopts = ["--tb=short"]
-markers = [
-    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
-    "integration: marks tests as integration tests",
-]

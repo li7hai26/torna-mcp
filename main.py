@@ -23,15 +23,24 @@ from mcp.server.fastmcp import FastMCP
 mcp = FastMCP("torna_mcp")
 
 # Constants
-API_BASE_URL = os.getenv("TORNA_URL")
-TORNA_TOKENS = os.getenv("TORNA_TOKENS", "").split(",") if os.getenv("TORNA_TOKENS") else []
 CHARACTER_LIMIT = 25000
 
-if not API_BASE_URL:
-    raise ValueError("TORNA_URL environment variable is required")
+# Environment variables (validated later)
+API_BASE_URL: Optional[str] = None
+TORNA_TOKENS: List[str] = []
 
-if not TORNA_TOKENS or not TORNA_TOKENS[0]:
-    raise ValueError("TORNA_TOKENS environment variable is required and should contain comma-separated tokens")
+def _validate_environment():
+    """Validate required environment variables."""
+    global API_BASE_URL, TORNA_TOKENS
+    
+    API_BASE_URL = os.getenv("TORNA_URL")
+    TORNA_TOKENS = os.getenv("TORNA_TOKENS", "").split(",") if os.getenv("TORNA_TOKENS") else []
+    
+    if not API_BASE_URL:
+        raise ValueError("TORNA_URL environment variable is required")
+    
+    if not TORNA_TOKENS or not TORNA_TOKENS[0]:
+        raise ValueError("TORNA_TOKENS environment variable is required and should contain comma-separated tokens")
 
 # Enums
 class ResponseFormat(str, Enum):
@@ -1720,7 +1729,18 @@ async def torna_delete_module(params: ModuleDeleteInput) -> str:
         return _handle_api_error(e)
 
 def main():
-    """Main entry point for the torna-mcp command line tool."""
+    """Main entry point for the toma-mcp command line tool."""
+    # Validate and set global environment variables
+    global API_BASE_URL, TORNA_TOKENS
+    API_BASE_URL = os.getenv("TORNA_URL")
+    TORNA_TOKENS = os.getenv("TORNA_TOKENS", "").split(",") if os.getenv("TORNA_TOKENS") else []
+    
+    if not API_BASE_URL:
+        raise ValueError("TORNA_URL environment variable is required")
+    
+    if not TORNA_TOKENS or not TORNA_TOKENS[0]:
+        raise ValueError("TORNA_TOKENS environment variable is required and should contain comma-separated tokens")
+    
     mcp.run()
 
 if __name__ == "__main__":
