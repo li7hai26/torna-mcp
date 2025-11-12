@@ -1,5 +1,4 @@
 include README.md
-include QUICKSTART.md
 include DEPLOYMENT.md
 include MCP_CLIENTS.md
 include LICENSE

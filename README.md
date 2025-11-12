@@ -7,6 +7,15 @@
 
 一个用于与 Torna 接口文档管理平台交互的 MCP（模型上下文协议）服务器。该服务器提供了16个工具，允许 LLM 通过标准化的接口来管理 Torna 中的文档、字典和模块。
 
+## 🎉 发布状态
+
+**项目已成功发布到PyPI！**  
+- **包名**: `torna-mcp`  
+- **版本**: `1.0.0`  
+- **PyPI页面**: https://pypi.org/project/torna-mcp/  
+- **许可证**: MIT  
+- **Python支持**: >=3.8
+
 ## 🚀 快速开始
 
 ### 安装
@@ -121,6 +130,72 @@ iflow mcp add toma-mcp
 ```
 
 详细的客户端配置说明请参见 [MCP_CLIENTS.md](./MCP_CLIENTS.md)
+
+## 📝 使用示例
+
+### 创建文档分类
+```
+工具: torna_create_category
+参数:
+{
+  "name": "用户管理",
+  "description": "用户相关的API接口",
+  "access_token": "your_token"
+}
+```
+
+### 推送 API 文档
+```
+工具: torna_push_document
+参数:
+{
+  "name": "用户登录",
+  "description": "用户登录接口",
+  "url": "/api/auth/login",
+  "http_method": "POST",
+  "content_type": "application/json",
+  "request_params": [
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "required": true,
+      "example": "john_doe"
+    },
+    {
+      "name": "password", 
+      "type": "string",
+      "description": "密码",
+      "required": true,
+      "example": "123456"
+    }
+  ],
+  "response_params": [
+    {
+      "name": "token",
+      "type": "string",
+      "description": "访问令牌"
+    },
+    {
+      "name": "userId",
+      "type": "string", 
+      "description": "用户ID"
+    }
+  ],
+  "access_token": "your_token"
+}
+```
+
+### 列出所有文档
+```
+工具: torna_list_documents
+参数:
+{
+  "access_token": "your_token",
+  "limit": 20,
+  "offset": 0
+}
+```
 
 ## 🔧 系统要求
 
