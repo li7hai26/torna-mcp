@@ -1719,5 +1719,9 @@ async def torna_delete_module(params: ModuleDeleteInput) -> str:
     except Exception as e:
         return _handle_api_error(e)
 
-if __name__ == "__main__":
+def main():
+    """Main entry point for the torna-mcp command line tool."""
     mcp.run()
+
+if __name__ == "__main__":
+    main()
