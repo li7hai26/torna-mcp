@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "torna-mcp"
+version = "0.1.3-beta"
+description = "A MCP (Model Context Protocol) server for interacting with Torna API documentation platform"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    { name = "阿拉丁神灯", email = "li7hai26@gmail.com" }
+]
+keywords = ["mcp", "torna", "api-documentation", "claude", "llm", "protocol"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "torna-sdk>=0.1.2-beta",
+    "fastmcp>=0.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/li7hai26/torna-mcp"
+Repository = "https://github.com/li7hai26/torna-mcp.git"
+Issues = "https://github.com/li7hai26/torna-mcp/issues"
+
+[project.scripts]
+torna-mcp = "torna_mcp.main:main"
