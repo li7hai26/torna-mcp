@@ -5,14 +5,31 @@
 [![License](https://img.shields.io/pypi/l/torna-mcp)](https://github.com/li7hai26/torna-mcp/blob/main/LICENSE)
 [![GitHub](https://img.shields.io/github/stars/li7hai26/torna-mcp)](https://github.com/li7hai26/torna-mcp)
 
+<<<<<<< HEAD
 一个用于与 Torna 接口文档管理平台交互的 MCP（模型上下文协议）服务器。该服务器基于真实的 Torna OpenAPI 规范，提供了5个完整工具，允许 LLM 通过标准化的接口来管理 Torna 中的 API 文档。
 
 **基于真实 Torna API 规范**: http://localhost:7700/api
 
+=======
+一个用于与 Torna 接口文档管理平台交互的 MCP（模型上下文协议）服务器。该服务器基于真实的 Torna OpenAPI 规范，提供了2个核心工具，允许 LLM 通过标准化的接口来管理 Torna 中的 API 文档。
+
+**基于真实 Torna API 规范**: http://localhost:7700/api
+
+## 🎉 发布状态
+
+**项目已成功发布到PyPI！**  
+- **包名**: `torna-mcp`  
+- **版本**: `1.0.0`  
+- **PyPI页面**: https://pypi.org/project/torna-mcp/  
+- **许可证**: MIT  
+- **Python支持**: >=3.8
+
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 ## 🚀 快速开始
 
 ### 安装
 
+<<<<<<< HEAD
 #### 方法1：通过 uv 安装（推荐）
 
 ```bash
@@ -24,16 +41,34 @@ uv add toma-mcp
 
 # 或使用 pip
 pip install toma-mcp
+=======
+#### 方法1：通过PyPI安装（推荐）
+
+```bash
+# 使用 pip
+pip install toma-mcp
+
+# 或使用 uv（推荐）
+uv pip install toma-mcp
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 ```
 
 #### 方法2：从源码安装
 
 ```bash
+<<<<<<< HEAD
 # 使用 uv
 uv pip install -e .
 
 # 或使用 pip
 pip install -e .
+=======
+git clone https://github.com/li7hai26/torna-mcp.git
+cd torna-mcp
+pip install -e .
+# 或使用 uv
+uv pip install -e .
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 ```
 
 ### 配置环境变量
@@ -60,6 +95,11 @@ cp .env.example .env
 # 编辑 .env 文件，设置您的 TORNA_URL 和 TORNA_TOKEN
 ```
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 ### 启动MCP服务器
 
 ```bash
@@ -70,7 +110,11 @@ torna-mcp
 
 ## 📚 功能特性
 
+<<<<<<< HEAD
 ### 核心 API 接口 (5个工具)
+=======
+### 核心 API 接口 (2个工具)
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 
 基于真实的 Torna OpenAPI 规范实现：
 
@@ -80,11 +124,16 @@ torna-mcp
   - 支持错误码配置
   - 支持调试环境设置
 
+<<<<<<< HEAD
 - **获取单个文档详情** (`torna_get_document_detail`) - 获取单个文档详细信息
+=======
+- **获取文档** (`torna_get_document`) - 获取单个文档详细信息
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
   - 获取文档完整信息
   - 包括请求/响应参数
   - 包括错误码信息
 
+<<<<<<< HEAD
 - **获取模块信息** (`torna_get_module`) - 获取应用模块基本信息
   - 模块名称和描述
   - 模块状态信息
@@ -99,6 +148,8 @@ torna-mcp
   - 高效处理大量文档
   - 完整参数列表
 
+=======
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 **API 规范**: 基于 [Torna 官方 OpenAPI](https://torna.cn/dev/openapi.html) 实现
 
 ## 🛠️ MCP客户端配置
@@ -135,10 +186,20 @@ torna-mcp
 ```
 3. 重启Claude Desktop
 
+<<<<<<< HEAD
 ### VS Code
 1. 安装MCP相关扩展
 2. 配置服务器连接
 3. 使用MCP工具
+=======
+### IFlow CLI
+```bash
+# 添加到MCP配置
+iflow mcp add toma-mcp
+```
+
+详细的客户端配置说明请参见 [MCP_CLIENTS.md](./MCP_CLIENTS.md)
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 
 ## 📝 使用示例
 
@@ -186,13 +247,18 @@ torna-mcp
 
 ### 获取文档详情
 ```
+<<<<<<< HEAD
 工具: torna_get_document_detail
+=======
+工具: toma_get_document
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 参数:
 {
   "doc_id": "doc_123"
 }
 ```
 
+<<<<<<< HEAD
 ### 批量获取文档详情
 ```
 工具: torna_get_document_detail_batch
@@ -216,6 +282,8 @@ torna-mcp
 {}
 ```
 
+=======
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 ### 创建分类（文件夹）
 ```
 工具: toma_push_document
@@ -256,6 +324,7 @@ torna-mcp
 ## 🔧 系统要求
 
 ### 环境要求
+<<<<<<< HEAD
 - **Python**: 3.11 或更高版本
 - **Torna**: 私有化部署版本
 - **MCP客户端**: Cursor、Claude Desktop、VS Code等
@@ -293,6 +362,34 @@ uv run isort src/ tests/
 ```bash
 uv run mypy src/
 ```
+=======
+- **Python**: 3.8 或更高版本
+- **Torna**: 私有化部署版本
+- **MCP客户端**: Cursor、Claude Desktop、VS Code等
+
+### 安装Python环境
+- **pip** (标准Python安装)
+- **uv** (推荐 - 更快更现代的包管理器)
+  ```bash
+  # 安装uv
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
+
+## 📖 详细文档
+
+- **[快速开始](./QUICKSTART.md)** - 详细的快速入门指南
+- **[安装指南](./INSTALL.md)** - 多种安装方法
+- **[MCP客户端配置](./MCP_CLIENTS.md)** - 各种MCP客户端的配置方法
+- **[部署指南](./DEPLOYMENT.md)** - 生产环境部署说明
+
+## 🐛 问题反馈
+
+如果您在使用过程中遇到问题，请：
+
+1. 查看 [GitHub Issues](https://github.com/li7hai26/torna-mcp/issues)
+2. 在PyPI页面提交反馈
+3. 发送邮件至: li7hai26@gmail.com
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 
 ## 📄 许可证
 
@@ -304,6 +401,7 @@ uv run mypy src/
 - **邮箱**: li7hai26@gmail.com
 - **GitHub**: [@li7hai26](https://github.com/li7hai26)
 
+<<<<<<< HEAD
 ## 📋 变更日志
 
 详细变更日志请查看 [CHANGELOG.md](./CHANGELOG.md)
@@ -317,6 +415,8 @@ uv run mypy src/
 - 🔧 遵循 MCP 开发通用规范
 - 🌏 支持国内镜像加速
 
+=======
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 ---
 
 **🔗 相关链接**

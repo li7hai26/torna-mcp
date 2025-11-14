@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -7,6 +8,13 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+=======
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 .Python
 build/
 develop-eggs/
@@ -27,8 +35,11 @@ share/python-wheels/
 MANIFEST
 
 # PyInstaller
+<<<<<<< HEAD
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
+=======
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 *.manifest
 *.spec
 
@@ -49,6 +60,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+<<<<<<< HEAD
 cover/
 
 # Translations
@@ -123,6 +135,11 @@ celerybeat.pid
 .env
 .env.local
 .env.*.local
+=======
+
+# Virtual environments
+.env
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea
 .venv
 env/
 venv/
@@ -130,6 +147,7 @@ ENV/
 env.bak/
 venv.bak/
 
+<<<<<<< HEAD
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -207,3 +225,24 @@ temp/
 .env
 .env.*
 !.env.example
+=======
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Torna MCP specific
+*.log
+torna_mcp.log
+>>>>>>> 55eee9a1cddd378865fe2faccee51a0c205a87ea

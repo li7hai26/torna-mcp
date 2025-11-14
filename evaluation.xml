@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaluation>
+  <!-- 文档API评估用例 -->
+  <qa_pair>
+    <question>创建一个名为"用户登录"的新文档分类，使用GET方法，URL为"/api/auth/login"，内容类型为application/json，包含用户名和密码两个请求参数，分别有description和example，返回成功状态为0</question>
+    <answer>code: 0</answer>
+  </qa_pair>
+  
+  <qa_pair>
+    <question>列出Torna中所有的文档列表，限制返回10条记录，返回markdown格式，验证是否有返回文档数据和分页信息</question>
+    <answer>list</answer>
+  </qa_pair>
+  
+  <qa_pair>
+    <question>获取ID为"doc_12345"的文档详情，验证是否返回该文档的完整信息包括请求参数、响应参数、错误码等</question>
+    <answer>name</answer>
+  </qa_pair>
+  
+  <qa_pair>
+    <question>批量获取ID为"doc_12345,doc_67890"的两个文档详情，验证是否同时返回两个文档的详细信息</question>
+    <answer>length: 2</answer>
+  </qa_pair>
+  
+  <qa_pair>
+    <question>创建一个名为"订单管理"的文档分类，用于组织订单相关的API接口，分类名称应该包含"订单管理"字样</question>
+    <answer>订单管理</answer>
+  </qa_pair>
+  
+  <!-- 字典API评估用例 -->
+  <qa_pair>
+    <question>创建一个名为"订单状态"的字典，包含PENDING、PROCESSING、COMPLETED、CANCELLED四个状态值，验证字典创建是否成功</question>
+    <answer>code: 0</answer>
+  </qa_pair>
+  
+  <qa_pair>
+    <question>列出Torna中所有的字典列表，验证是否返回字典数据包括字典名称、描述等信息</question>
+    <answer>name</answer>
+  </qa_pair>
+  
+  <qa_pair>
+    <question>获取ID为"dict_54321"的字典详情，验证是否返回该字典包含的所有枚举值和项目信息</question>
+    <answer>items</answer>
+  </qa_pair>
+  
+  <!-- 模块API评估用例 -->
+  <qa_pair>
+    <question>创建一个名为"电商系统"的模块，描述为"电商相关API模块"，项目ID为"project_abc123"，验证模块创建是否成功</question>
+    <answer>code: 0</answer>
+  </qa_pair>
+  
+  <qa_pair>
+    <question>列出项目ID为"project_abc123"的所有模块，验证是否返回模块列表包含模块名称、描述和令牌信息</question>
+    <answer>length</answer>
+  </qa_pair>
+</evaluation>

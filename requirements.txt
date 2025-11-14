@@ -1,0 +1,13 @@
+# Torna MCP Server Dependencies
+
+# MCP server framework
+mcp>=1.0.0
+
+# HTTP client
+httpx>=0.25.0
+
+# Data validation and serialization
+pydantic>=2.0.0
+
+# Standard library utilities
+urllib3>=2.0.0

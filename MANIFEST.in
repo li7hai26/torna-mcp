@@ -1,0 +1,24 @@
+include README.md
+include DEPLOYMENT.md
+include MCP_CLIENTS.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+include *.md
+include *.txt
+include *.xml
+include *.json
+include .env.example
+
+recursive-include . *.md *.txt *.xml *.json *.yml *.yaml
+exclude __pycache__
+exclude *.pyc
+exclude test_*
+exclude *_test.py
+exclude complete_e2e_test.py
+exclude test_server.py
+exclude deploy.py
+exclude validate_config.py
+exclude setup_clients.sh
+exclude .gitignore
+exclude .git-credentials
